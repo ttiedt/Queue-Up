@@ -1,0 +1,162 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
+  --main-color: #1DB954;
+  --white: #fff;
+  --black: #000;
+  --font: 'Montserrat', sans-serif;
+}
+
+/* body {
+  background: url(images/bg.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+	background-size: cover;
+} */
+html {
+    height:100%;
+    background: url(../images/bg.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+@media(min-width: 750px){
+	.mycontainer{
+    width: 80%;
+    border-radius: 0px 0px 15px 15px;
+    position: fixed;
+    left: 50%;
+    margin-left: -40%;
+  }
+  #search, .srchbtn {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+}
+
+.mycontainer {
+  background-color: rgba(0, 0, 0, 0.9);
+  padding: 25px;
+}
+
+h1 {
+  color: var(--main-color);
+  text-align: center;
+  font-family: var(--font);
+}
+
+a:link{
+  text-decoration: none;
+  color: var(--white);
+}
+
+a:hover{
+  text-decoration: underline;
+  color: var(--white);
+}
+
+
+
+
+
+
+
+/* I dont think below is needed anymore */
+@media(min-width: 750px){
+	.auth{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		border-radius: 15px;
+	}
+}
+
+.auth {
+	padding: 25px;
+	background-color: rgba(0, 0, 0, 0.9);
+}
+/* FORM
+============================================================ */
+@media(min-width: 750px){
+	form{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		border-radius: 15px;
+	}
+}
+
+form {
+	padding: 25px;
+	background-color: rgba(0, 0, 0, 0.9);
+}
+.textbox{
+	width: 100%;
+	overflow: hidden;
+	font-size: 20px;
+	padding: 8px 0;
+	color: #fff;
+	margin: 8px 0;
+	border-bottom: 1px solid #fff;
+}
+
+.formheader{
+	width: 100%;
+	overflow: hidden;
+}
+
+.textbox i{
+	width: 26px;
+	float: left;
+	text-align: center
+}
+
+.textbox input{
+	border: none;
+	outline: none;
+	background: none;
+	color: #fff;
+	font-size: 18px;
+	width: 80%;
+	float: left;
+	margin: 0 10px;
+	font-family: var(--font);
+}
+
+/* Button
+=============================================== */
+div.button {
+	font-family: var(--font);
+	flex-basis: 27%;
+	margin-top: 5px;
+ }
+
+div.button a {
+	background: var(--main-color);
+	color: #fff;
+	bottom: 5px;
+	padding: 15px 32px;
+	text-align: center;
+  display: inline-block;
+	font-size: 16px;
+	font-family: var(--font);
+	border-radius: 15px;
+}
+
+/* Helpful
+=============================================== */
+.center {
+  text-align: center;
+}
+
+.p-top {
+  padding-top: 15px;
+}

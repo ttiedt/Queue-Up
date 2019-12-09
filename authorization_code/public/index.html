@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Q Up</title>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <style type="text/css">
+    #login,
+    #loggedin {
+      display: none;
+    }
+
+    .text-overflow {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 500px;
+    }
+  </style>
+  <link rel='stylesheet' href="css/style.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+
+<body>
+  <div class="mycontainer">
+    <h1>Queue Up</h1></br>
+    <div id="login">
+      <div class="button center">
+        <a href="/login">Log in with Spotify</a>
+      </div>
+    </div>
+    <div id="loggedin">
+      <div class="srchbtn">
+        <div class="input-group">
+          <input type="text" class=" form-control" placeholder="Search for..." id='searchquery'/>
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button" id="searchsbmt">Go!</button>
+          </span>
+        </div>
+      </div>
+      <div id="search">
+      </div>
+      <div id="oauth">
+      </div>
+      <!-- <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button> -->
+    </div>
+  </div>
+  <!-- My code
+  <script id="search" type="text/x-handlebars-template">
+    <div class="container">
+      <hr />
+      <div class="col-lg-6">
+        <div class="input-group">
+          <input type="text"
+            onChange="{event => { this.setState({ query: event.target.value }) }}""
+            class="form-control" placeholder="Search for..." />
+          <span class="input-group-btn">
+            <button
+              onClick="{() => this.search()}"S
+              class="btn btn-default" type="button">Go!</button>
+          </span>
+        </div>
+      </div>
+      <hr />
+      <div>
+        <div> {artist.name}   </div>
+        <div> {artist.followers.total} </div>
+      </div>
+    </div>
+  </script> -->
+  <script id="search-template" type="text/x-handlebars-template">
+
+  </script>
+  <!-- <script id="search-template" type="text/x-handlebars-template">
+      <h1>Logged in as {{display_name}}</h1>
+      <div class="media">
+        <div class="pull-left">
+          <img class="media-object" width="150" src="{{images.0.url}}" />
+        </div>
+        <div class="media-body">
+          <dl class="dl-horizontal">
+            <dt>Display name</dt><dd class="clearfix">{{display_name}}</dd>
+            <dt>Id</dt><dd>{{id}}</dd>
+            <dt>Email</dt><dd>{{email}}</dd>
+            <dt>Spotify URI</dt><dd><a href="{{external_urls.spotify}}">{{external_urls.spotify}}</a></dd>
+            <dt>Link</dt><dd><a href="{{href}}">{{href}}</a></dd>
+            <dt>Profile Image</dt><dd class="clearfix"><a href="{{images.0.url}}">{{images.0.url}}</a></dd>
+            <dt>Country</dt><dd>{{country}}</dd>
+          </dl>
+        </div>
+      </div>
+    </script> -->
+
+  <script id="oauth-template" type="text/x-handlebars-template">
+      <h2>oAuth info</h2>
+      <dl class="dl-horizontal">
+        <dt>Access token</dt><dd class="text-overflow">{{access_token}}</dd>
+        <dt>Refresh token</dt><dd class="text-overflow">{{refresh_token}}</dd>
+      </dl>
+    </script>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
+  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  <script>
+    (function () {
+
+      /**
+       * Obtains parameters from the hash of the URL
+       * @return Object
+       */
+      function getHashParams() {
+        var hashParams = {};
+        var e, r = /([^&;=]+)=?([^&;]*)/g,
+          q = window.location.hash.substring(1);
+        while (e = r.exec(q)) {
+          hashParams[e[1]] = decodeURIComponent(e[2]);
+        }
+        return hashParams;
+      }
+
+      var searchSource = document.getElementById('search-template').innerHTML,
+        searchTemplate = Handlebars.compile(searchSource),
+        searchPlaceholder = document.getElementById('search');
+
+      var oauthSource = document.getElementById('oauth-template').innerHTML,
+        oauthTemplate = Handlebars.compile(oauthSource),
+        oauthPlaceholder = document.getElementById('oauth');
+
+      var params = getHashParams();
+
+      var access_token = params.access_token,
+        refresh_token = params.refresh_token,
+        error = params.error;
+
+      if (error) {
+        alert('There was an error during the authentication');
+      } else {
+        if (access_token) {
+          // render oauth info
+          // oauthPlaceholder.innerHTML = oauthTemplate({
+          //   access_token: access_token,
+          //   refresh_token: refresh_token
+          // });
+
+          $.ajax({
+            // url: 'https://api.spotify.com/v1/search?' + 'q=' + searchQuery + '&type=track%2Cartist&limit=1',
+            url: 'https://api.spotify.com/v1/me',
+            headers: {
+              'Authorization': 'Bearer ' + access_token
+            },
+            success: function (response) {
+              searchPlaceholder.innerHTML = searchTemplate(response);
+
+              $('#login').hide();
+              $('#loggedin').show();
+            }
+          });
+        } else {
+          // render initial screen
+          $('#login').show();
+          $('#loggedin').hide();
+        }
+        // Do an onclick listener for search
+        // x ? y : z
+        // var searchsbmt = document.getElementById('searchsbmt');
+        // var searchquery = document.getElementById('seachquery');
+        // var qu;
+        // // if (searchquery){
+        // //   searchquery.addEventListener('input', function() {
+        // //     qu = document.getElementById('seachquery').value();
+        // //     console.log(qu);
+        // //   });
+        // // }
+        // function getVal(){
+        //   qu = document.getElementById('searchquery').value();
+        //   console.log(qu);
+        // }
+        document.getElementById('searchsbmt').addEventListener('click', function () {
+          $.ajax({
+            url: '/search',
+            data: {
+              access_token: access_token,
+              que: document.getElementById('searchquery').value}
+          }).done(function (data){
+              console.log('success', data);
+              // i would do an each loop to fill out search results
+            });
+        }, false);
+        // document.getElementById('obtain-new-token').addEventListener('click', function () {
+        //   $.ajax({
+        //     url: '/refresh_token',
+        //     data: {
+        //       'refresh_token': refresh_token
+        //     }
+        //   }).done(function (data) {
+        //     access_token = data.access_token;
+        //     oauthPlaceholder.innerHTML = oauthTemplate({
+        //       access_token: access_token,
+        //       refresh_token: refresh_token
+        //     });
+        //   });
+        // }, false);
+      }
+    })();
+  </script>
+</body>
+
+</html>
