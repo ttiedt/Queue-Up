@@ -72,7 +72,11 @@
     </div>
   </script> -->
   <script id="search-template" type="text/x-handlebars-template">
-
+    <h1>Results</h1>
+    <dt>result1</dt><dd>{{data1}}</dd>
+    <ul>
+      <li>{{data2}}</li>
+    </ul>
   </script>
   <!-- <script id="search-template" type="text/x-handlebars-template">
       <h1>Logged in as {{display_name}}</h1>
@@ -146,7 +150,6 @@
           // });
 
           $.ajax({
-            // url: 'https://api.spotify.com/v1/search?' + 'q=' + searchQuery + '&type=track%2Cartist&limit=1',
             url: 'https://api.spotify.com/v1/me',
             headers: {
               'Authorization': 'Bearer ' + access_token
@@ -155,6 +158,7 @@
               searchPlaceholder.innerHTML = searchTemplate(response);
 
               $('#login').hide();
+              $('#search').hide();
               $('#loggedin').show();
             }
           });
@@ -164,29 +168,20 @@
           $('#loggedin').hide();
         }
         // Do an onclick listener for search
-        // x ? y : z
-        // var searchsbmt = document.getElementById('searchsbmt');
-        // var searchquery = document.getElementById('seachquery');
-        // var qu;
-        // // if (searchquery){
-        // //   searchquery.addEventListener('input', function() {
-        // //     qu = document.getElementById('seachquery').value();
-        // //     console.log(qu);
-        // //   });
-        // // }
-        // function getVal(){
-        //   qu = document.getElementById('searchquery').value();
-        //   console.log(qu);
-        // }
         document.getElementById('searchsbmt').addEventListener('click', function () {
           $.ajax({
             url: '/search',
             data: {
               access_token: access_token,
-              que: document.getElementById('searchquery').value}
+              q: document.getElementById('searchquery').value}
           }).done(function (data){
               console.log('success', data);
+              $('#search').show();
               // i would do an each loop to fill out search results
+              searchPlaceholder.innerHTML = searchTemplate({
+                data1: data.artists.items[0].name,
+                data2: data.tracks.items[0].artists[0].name
+              });
             });
         }, false);
         // document.getElementById('obtain-new-token').addEventListener('click', function () {
