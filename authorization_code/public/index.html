@@ -35,7 +35,7 @@
     <div id="loggedin">
       <div class="srchbtn">
         <div class="input-group">
-          <input type="text" class=" form-control" placeholder="Search for..." id='searchquery'/>
+          <input type="text" class=" form-control" placeholder="Search for..." id='searchquery' />
           <span class="input-group-btn">
             <button class="btn btn-default" type="button" id="searchsbmt">Go!</button>
           </span>
@@ -72,31 +72,15 @@
     </div>
   </script> -->
   <script id="search-template" type="text/x-handlebars-template">
-    <h1>Results</h1>
-    <dt>result1</dt><dd>{{data1}}</dd>
-    <ul>
-      <li>{{data2}}</li>
-    </ul>
-  </script>
-  <!-- <script id="search-template" type="text/x-handlebars-template">
-      <h1>Logged in as {{display_name}}</h1>
-      <div class="media">
-        <div class="pull-left">
-          <img class="media-object" width="150" src="{{images.0.url}}" />
-        </div>
-        <div class="media-body">
-          <dl class="dl-horizontal">
-            <dt>Display name</dt><dd class="clearfix">{{display_name}}</dd>
-            <dt>Id</dt><dd>{{id}}</dd>
-            <dt>Email</dt><dd>{{email}}</dd>
-            <dt>Spotify URI</dt><dd><a href="{{external_urls.spotify}}">{{external_urls.spotify}}</a></dd>
-            <dt>Link</dt><dd><a href="{{href}}">{{href}}</a></dd>
-            <dt>Profile Image</dt><dd class="clearfix"><a href="{{images.0.url}}">{{images.0.url}}</a></dd>
-            <dt>Country</dt><dd>{{country}}</dd>
-          </dl>
+    <li>
+      <div class="searchResultDiv left">
+        <h2>{{artist}} - {{track}}</h2>
+        <div class="buttonAddToQueue">
+          <a href="#">Add song to queue</a>
         </div>
       </div>
-    </script> -->
+    </li>
+  </script>
 
   <script id="oauth-template" type="text/x-handlebars-template">
       <h2>oAuth info</h2>
@@ -155,7 +139,8 @@
               'Authorization': 'Bearer ' + access_token
             },
             success: function (response) {
-              searchPlaceholder.innerHTML = searchTemplate(response);
+              // i dont think we need the next line
+              //searchPlaceholder.innerHTML = searchTemplate(response);
 
               $('#login').hide();
               $('#search').hide();
@@ -166,6 +151,7 @@
           // render initial screen
           $('#login').show();
           $('#loggedin').hide();
+          $('#search').hide();
         }
         // Do an onclick listener for search
         document.getElementById('searchsbmt').addEventListener('click', function () {
@@ -173,16 +159,21 @@
             url: '/search',
             data: {
               access_token: access_token,
-              q: document.getElementById('searchquery').value}
-          }).done(function (data){
-              console.log('success', data);
-              $('#search').show();
-              // i would do an each loop to fill out search results
-              searchPlaceholder.innerHTML = searchTemplate({
-                data1: data.artists.items[0].name,
-                data2: data.tracks.items[0].artists[0].name
+              q: document.getElementById('searchquery').value
+            }
+          }).done(function (data) {
+            console.log('success', data);
+            searchPlaceholder.innerHTML = '<h1 class="left">Search Results:</h1><ol id="searchResultOL">';
+            for(i = 0; i < 5; i++){
+              searchPlaceholder.innerHTML += searchTemplate(
+              {
+                artist: data.tracks.items[i].artists[0].name,
+                track: data.tracks.items[i].name
               });
-            });
+            }
+            searchPlaceholder.innerHTML += '</ol>';
+            $('#search').show();
+          });
         }, false);
         // document.getElementById('obtain-new-token').addEventListener('click', function () {
         //   $.ajax({

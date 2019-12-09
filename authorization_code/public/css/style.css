@@ -5,7 +5,7 @@
 
   --main-color: #1DB954;
   --white: #fff;
-  --black: #000;
+  --black: #333;
   --font: 'Montserrat', sans-serif;
 }
 
@@ -14,7 +14,7 @@
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
-	background-size: cover;
+  background-size: cover;
 } */
 html {
     height:100%;
@@ -23,21 +23,6 @@ html {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-}
-
-@media(min-width: 750px){
-	.mycontainer{
-    width: 80%;
-    border-radius: 0px 0px 15px 15px;
-    position: fixed;
-    left: 50%;
-    margin-left: -40%;
-  }
-  #search, .srchbtn {
-    width: 80%;
-    margin-left: 10%;
-    margin-right: 10%;
-  }
 }
 
 .mycontainer {
@@ -49,6 +34,14 @@ h1 {
   color: var(--main-color);
   text-align: center;
   font-family: var(--font);
+  font-weight: bold;
+}
+
+h2 {
+  color: var(--white);
+  text-align: left;
+  font-family: var(--font);
+  display: inline;
 }
 
 a:link{
@@ -61,28 +54,97 @@ a:hover{
   color: var(--white);
 }
 
+/* Ordered list
+============================================== */
+#search{
+	background-color: var(--black);
+	padding: 15px;
+	border-radius: 15px;
+	margin-top: 15px;
+}
+
+li {
+  margin: 5px;
+  padding: 35px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+}
+
 /* Button
 =============================================== */
 div.button {
-	font-family: var(--font);
-	flex-basis: 27%;
-	margin-top: 5px;
- }
+  font-family: var(--font);
+  font-weight: bold;
+  flex-basis: 27%;
+  margin-top: 5px;
+}
+
+div.buttonAddToQueue {
+  font-family: var(--font);
+  font-weight: bold;
+  flex-basis: 27%;
+  float: left;
+  margin-right: 10px;
+}
 
 div.button a {
-	background: var(--main-color);
-	color: #fff;
-	bottom: 5px;
-	padding: 15px 32px;
-	text-align: center;
+  background: var(--main-color);
+  color: var(--white);
+  bottom: 5px;
+  padding: 15px 32px;
+  text-align: center;
   display: inline-block;
-	font-size: 16px;
-	font-family: var(--font);
-	border-radius: 15px;
+  font-size: 16px;
+  font-family: var(--font);
+  border-radius: 15px;
+}
+
+div.buttonAddToQueue a {
+  background: var(--main-color);
+  color: var(--white);
+  bottom: 5px;
+  padding: 15px 32px;
+  text-align: center;
+  font-size: 16px;
+  font-family: var(--font);
+  border-radius: 15px;
 }
 
 /* Helpful
 =============================================== */
 .center {
   text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+.left {
+  text-align: left;
+}
+
+@media(min-width: 1000px){
+  .mycontainer{
+    width: 80%;
+    border-radius: 0px 0px 15px 15px;
+    position: fixed;
+    left: 50%;
+    margin-left: -40%;
+  }
+  #search, .srchbtn {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+  div.buttonAddToQueue{
+    margin-right: 0px;
+    margin-top: 5px;
+    float: right;
+  }
+}
+@media(max-width: 500px){
+  div.buttonAddToQueue{
+    margin-bottom: 15px;
+  }
 }

@@ -119,10 +119,11 @@ app.get('/callback', function (req, res) {
 });
 
 app.get('/search', function (req, res) {
+  console.log('Seach')
   var qu = req.query.q;
   var access_token = req.query.access_token;
   var srch = {
-    url: 'https://api.spotify.com/v1/search?q=' + qu + '&type=track%2Cartist&limit=1',
+    url: 'https://api.spotify.com/v1/search?q=' + qu + '&type=track&limit=5',
     headers: {
       'Authorization': 'Bearer ' + access_token
     },
