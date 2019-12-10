@@ -119,7 +119,8 @@ app.get('/callback', function (req, res) {
 });
 
 app.get('/search', function (req, res) {
-  console.log('Seach')
+  console.log('\n=================');
+  console.log('Seach');
   var qu = req.query.q;
   var access_token = req.query.access_token;
   var srch = {
@@ -132,9 +133,14 @@ app.get('/search', function (req, res) {
   request.get(srch, function(error, response, body){
     if (!error && response.statusCode === 200) {
       console.log(response.statusCode, 'Seach Success');
+      console.log('=================\n');
       res.send(body);
     }
   })
+});
+
+app.get('/add', function(req, res){
+  console.log('add')
 });
 
 app.get('/refresh_token', function (req, res) {

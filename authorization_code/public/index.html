@@ -3,25 +3,17 @@
 
 <head>
   <title>Q Up</title>
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-  <style type="text/css">
-    #login,
-    #loggedin {
-      display: none;
-    }
-
-    .text-overflow {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      width: 500px;
-    }
-  </style>
-  <link rel='stylesheet' href="css/style.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-  <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style type="text/css">
+      #login,
+      #loggedin {
+        display: none;
+      }
+    </style>
+    <link rel='stylesheet' href="css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 
 <body>
@@ -35,9 +27,9 @@
     <div id="loggedin">
       <div class="srchbtn">
         <div class="input-group">
-          <input type="text" class=" form-control" placeholder="Search for..." id='searchquery' />
+          <input type="text" class="bg-dark text-white form-control" placeholder="Search for..." id='searchquery' />
           <span class="input-group-btn">
-            <button class="btn btn-default" type="button" id="searchsbmt">Go!</button>
+            <button class="btn btn-default bg-dark text-white" type="button" id="searchsbmt">Go!</button>
           </span>
         </div>
       </div>
@@ -48,36 +40,14 @@
       <!-- <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button> -->
     </div>
   </div>
-  <!-- My code
-  <script id="search" type="text/x-handlebars-template">
-    <div class="container">
-      <hr />
-      <div class="col-lg-6">
-        <div class="input-group">
-          <input type="text"
-            onChange="{event => { this.setState({ query: event.target.value }) }}""
-            class="form-control" placeholder="Search for..." />
-          <span class="input-group-btn">
-            <button
-              onClick="{() => this.search()}"S
-              class="btn btn-default" type="button">Go!</button>
-          </span>
-        </div>
-      </div>
-      <hr />
-      <div>
-        <div> {artist.name}   </div>
-        <div> {artist.followers.total} </div>
-      </div>
-    </div>
-  </script> -->
+
   <script id="search-template" type="text/x-handlebars-template">
     <li>
       <div class="searchResultDiv left">
-        <h2>{{artist}} - {{track}}</h2>
-        <div class="buttonAddToQueue">
-          <a href="#">Add song to queue</a>
+        <div class="buttonAddToQueue" id='addToQueue'>
+          <a href="/add" value="{{trackid}}">Add song to queue</a>
         </div>
+        <h2>{{artist}} - {{track}}</h2>
       </div>
     </li>
   </script>
@@ -164,17 +134,26 @@
           }).done(function (data) {
             console.log('success', data);
             searchPlaceholder.innerHTML = '<h1 class="left">Search Results:</h1><ol id="searchResultOL">';
-            for(i = 0; i < 5; i++){
+            for (i = 0; i < data.tracks.limit; i++) {
               searchPlaceholder.innerHTML += searchTemplate(
-              {
-                artist: data.tracks.items[i].artists[0].name,
-                track: data.tracks.items[i].name
-              });
+                {
+                  artist: data.tracks.items[i].artists[0].name,
+                  track: data.tracks.items[i].name,
+                  trackid: data.tracks.items[i].id
+                });
             }
             searchPlaceholder.innerHTML += '</ol>';
             $('#search').show();
           });
         }, false);
+
+        // document.getElementById('addToQueue').addEventListener('click', function () {
+        //   $.ajax({
+        //     url: '/add',
+        //   }).done(function(data){
+        //     console.log('addback');
+        //   });
+        // });
         // document.getElementById('obtain-new-token').addEventListener('click', function () {
         //   $.ajax({
         //     url: '/refresh_token',
