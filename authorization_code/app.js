@@ -144,16 +144,14 @@ app.get('/add', function(req, res){
   console.log('Add');
   var access_token = req.query.access_token;
   var trackid = req.query.trackid;
-  console.log(trackid);
   var addToPlaylist = {
-    url: 'https://api.spotify.com/v1/playlists/2GihUWcyHROJqCPnb0Gikd/tracks?uris=spotify%3Atrack%3A' + trackid,
+    url: 'https://api.spotify.com/v1/playlists/5Ev8QubwfyvUy1BapLrank/tracks?uris=spotify%3Atrack%3A' + trackid,
     headers: {
       'Authorization': 'Bearer ' + access_token
     },
     json: true
   };
   request.post(addToPlaylist, function(error, response, body){
-    console.log(error, response.statusCode)
     if (!error && response.statusCode === 201) {
       console.log(response.statusCode, 'Add Success');
       console.log('==================\n');
