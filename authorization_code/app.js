@@ -119,8 +119,8 @@ app.get('/callback', function (req, res) {
 });
 
 app.get('/search', function (req, res) {
-  console.log('\n=================');
-  console.log('Seach');
+  console.log('\n==================');
+  console.log('Search');
   var qu = req.query.q;
   var access_token = req.query.access_token;
   var srch = {
@@ -132,15 +132,33 @@ app.get('/search', function (req, res) {
   };
   request.get(srch, function(error, response, body){
     if (!error && response.statusCode === 200) {
-      console.log(response.statusCode, 'Seach Success');
-      console.log('=================\n');
+      console.log(response.statusCode, 'Search Success');
+      console.log('==================\n');
       res.send(body);
     }
-  })
+  });
 });
 
 app.get('/add', function(req, res){
-  console.log('add')
+  console.log('\n==================');
+  console.log('Add');
+  var access_token = req.query.access_token;
+  var trackid = req.query.trackid;
+  console.log(trackid);
+  var addToPlaylist = {
+    url: 'https://api.spotify.com/v1/playlists/2GihUWcyHROJqCPnb0Gikd/tracks?uris=spotify%3Atrack%3A' + trackid,
+    headers: {
+      'Authorization': 'Bearer ' + access_token
+    },
+    json: true
+  };
+  request.post(addToPlaylist, function(error, response, body){
+    if (!error && response.statusCode === 201) {
+      console.log(response.statusCode, 'Add Success');
+      console.log('==================\n');
+      res.send(body);
+    }
+  });
 });
 
 app.get('/refresh_token', function (req, res) {

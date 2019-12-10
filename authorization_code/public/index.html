@@ -44,8 +44,8 @@
   <script id="search-template" type="text/x-handlebars-template">
     <li>
       <div class="searchResultDiv left">
-        <div class="buttonAddToQueue" id='addToQueue'>
-          <a href="/add" value="{{trackid}}">Add song to queue</a>
+        <div class="buttonAddToQueue" id='addToQueue{{i}}'>
+          <p>Add song to queue</p>
         </div>
         <h2>{{artist}} - {{track}}</h2>
       </div>
@@ -93,6 +93,9 @@
         refresh_token = params.refresh_token,
         error = params.error;
 
+      var trackIdArr = [];
+      var limit = 0;
+
       if (error) {
         alert('There was an error during the authentication');
       } else {
@@ -132,28 +135,39 @@
               q: document.getElementById('searchquery').value
             }
           }).done(function (data) {
-            console.log('success', data);
+            console.log('search success', data);
+            limit = data.tracks.limit;
             searchPlaceholder.innerHTML = '<h1 class="left">Search Results:</h1><ol id="searchResultOL">';
-            for (i = 0; i < data.tracks.limit; i++) {
+            for (i = 0; i < limit; i++) {
               searchPlaceholder.innerHTML += searchTemplate(
                 {
                   artist: data.tracks.items[i].artists[0].name,
                   track: data.tracks.items[i].name,
-                  trackid: data.tracks.items[i].id
+                  i: i
                 });
+              trackIdArr[i] = data.tracks.items[i].id;
             }
             searchPlaceholder.innerHTML += '</ol>';
             $('#search').show();
+            for(i = 0; i < limit; i++){
+              console.log('making addToQueue'.concat(i), trackIdArr[i])
+              document.getElementById('addToQueue'.concat(i)).addEventListener('click', function (i) {
+                console.log(trackIdArr[i]);
+                $.ajax({
+                  url:'/add',
+                  data: {
+                    access_token: access_token,
+                    trackid: trackIdArr[i]
+                  }
+                }).done(function (data){
+                  console.log('add success');
+                });
+              }(i), false);
+            }
           });
         }, false);
 
-        // document.getElementById('addToQueue').addEventListener('click', function () {
-        //   $.ajax({
-        //     url: '/add',
-        //   }).done(function(data){
-        //     console.log('addback');
-        //   });
-        // });
+
         // document.getElementById('obtain-new-token').addEventListener('click', function () {
         //   $.ajax({
         //     url: '/refresh_token',

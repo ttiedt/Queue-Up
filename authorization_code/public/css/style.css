@@ -23,11 +23,13 @@ html {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    overflow-y: scroll;
 }
 
 .mycontainer {
   background-color: rgba(0, 0, 0, 0.9);
   padding: 25px;
+  position: relative;
 }
 
 h1 {
@@ -41,8 +43,8 @@ h2 {
   color: var(--white);
   text-align: left;
   font-family: var(--font);
-	display: inline;
-	overflow: hidden;
+  display: inline;
+  overflow: hidden;
 }
 
 a:link{
@@ -58,11 +60,11 @@ a:hover{
 /* Ordered list
 ============================================== */
 #search{
-	background-color: var(--black);
-	padding: 15px;
-	border-radius: 15px;
-	margin-top: 15px;
-	margin-bottom: 15px;
+  background-color: var(--black);
+  padding: 15px;
+  border-radius: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 li {
@@ -86,7 +88,7 @@ div.buttonAddToQueue {
   font-weight: bold;
   flex-basis: 27%;
   float: left;
-	margin-right: 10px;
+  margin-right: 10px;
 }
 
 div.button a {
@@ -101,7 +103,7 @@ div.button a {
   border-radius: 15px;
 }
 
-div.buttonAddToQueue a {
+div.buttonAddToQueue p {
   background: var(--main-color);
   color: var(--white);
   bottom: 5px;
@@ -109,7 +111,13 @@ div.buttonAddToQueue a {
   text-align: center;
   font-size: 16px;
   font-family: var(--font);
-  border-radius: 15px;
+	border-radius: 15px;
+	text-decoration: none;
+}
+
+div.buttonAddToQueue p:hover{
+  text-decoration: underline;
+  color: var(--white);
 }
 
 /* Helpful
@@ -127,13 +135,13 @@ div.buttonAddToQueue a {
 }
 
 @media(min-width: 1000px){
-  .mycontainer{
+  /*.mycontainer{
     width: 80%;
     border-radius: 0px 0px 15px 15px;
-    position: fixed;
+    position: relative;
     left: 50%;
     margin-left: -40%;
-  }
+  }*/
   #search, .srchbtn {
     width: 80%;
     margin-left: 10%;
@@ -142,8 +150,7 @@ div.buttonAddToQueue a {
   div.buttonAddToQueue{
     margin-right: 0px;
     margin-top: 5px;
-		float: right;
-		padding-bottom: 5px;
+    float: right;
   }
 }
 @media(max-width: 500px){
