@@ -66,6 +66,9 @@ a:hover{
   margin-top: 15px;
   margin-bottom: 15px;
 }
+ol, ul {
+  list-style-type: none;
+}
 
 li {
   margin: 5px;
